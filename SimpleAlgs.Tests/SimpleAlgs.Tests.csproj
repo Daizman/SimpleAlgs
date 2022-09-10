@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataStructures\DataStructures.csproj" />
     <ProjectReference Include="..\SimpleAlgs\SimpleAlgs.csproj" />
   </ItemGroup>
 

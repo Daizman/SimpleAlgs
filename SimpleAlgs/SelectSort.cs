@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleAlgs
+﻿namespace SimpleAlgs
 {
-	public static class SelectSort
+	public static class SelectSort<T>
+		where T : IComparable<T>
 	{
-		#region Sort
-		public static int FindIndexOfSmallestElementInArray(double[] array)
+		private static int FindIndexOfSmallestElementInList(List<T> list)
 		{
 			var smallestIndex = 0;
-			var arrayLength = array.Length;
+			var smallest = list[smallestIndex];
+			var count = list.Count;
 
-			for (int i = 0; i < arrayLength; i++)
+			for (int i = 0; i < count; i++)
 			{
-				if (array[i] < array[smallestIndex])
+				if (smallest.CompareTo(list[i]) > 0)
 				{
+					smallest = list[i];
 					smallestIndex = i;
 				}
 			}
@@ -25,42 +21,21 @@ namespace SimpleAlgs
 			return smallestIndex;
 		}
 
-		public static double[] Run(double[] array)
+		public static List<T> Run(List<T> list)
 		{
-			var arrayLength = array.Length;
-			var answer = new double[arrayLength];
-			array.CopyTo(answer, 0);
+			var count = list.Count;
+			List<T> answer = new();
+			List<T> listCopy = new(list);
 
-			for (int i = 0; i < arrayLength; i++)
+			for (int i = 0; i < count; i++)
 			{
-				var smallestIndex = i;
-				for (int j = i + 1; j < arrayLength; j++)
-				{
-					if (answer[j] < answer[smallestIndex])
-					{
-						smallestIndex = j;
-					}
-				}
-				var smallest = answer[smallestIndex];
-				answer[smallestIndex] = answer[i];
-				answer[i] = smallest;
+				var smallestIndex = FindIndexOfSmallestElementInList(listCopy);
+				var smallest = listCopy[smallestIndex];
+				answer.Add(smallest);
+				listCopy.RemoveAt(smallestIndex);
 			}
 
 			return answer;
 		}
-
-		/*public static void SelectSortTests()
-		{
-			var emptyArray = Array.Empty<double>();
-			var oneElementArray = new double[] { 1 };
-			Random random = new();
-			var manyElementsArray = Enumerable.Range(1, 20).Select(el => (double)random.Next(-100, 100)).ToArray();
-
-			Console.WriteLine(SelectSort(emptyArray).ToReadableString());
-			Console.WriteLine(SelectSort(oneElementArray).ToReadableString());
-			Console.WriteLine(SelectSort(manyElementsArray).ToReadableString());
-		}*/
-		#endregion
-
 	}
 }
